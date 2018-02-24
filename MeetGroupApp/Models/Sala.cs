@@ -10,8 +10,6 @@ namespace MeetGroupApp.Models
 
         public int Pessoas { get; set; }
 
-        public bool Disponibilidade { get; set; }
-
         public bool Computador { get; set; }
 
         public bool Internet { get; set; }
