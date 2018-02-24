@@ -6,7 +6,7 @@ using System.Web;
 
 namespace MeetGroupApp.Models
 {
-    public class SalaReuniao
+    public class Reuniao
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
@@ -19,8 +19,6 @@ namespace MeetGroupApp.Models
 
         public TimeSpan HoraFim { get; set; }
 
-        public bool Internet { get; set; }
-
-        public bool Televisor { get; set; }
+        public Sala Sala { get; set; }
     }
 }
