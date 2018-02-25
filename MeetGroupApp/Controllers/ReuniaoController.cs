@@ -46,26 +46,40 @@ namespace MeetGroupApp.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DataInicio,HoraInicio,DataFim,HoraFim")] Reuniao reuniao)
+        public ActionResult Create([Bind(Include = "Id,DataInicio,HoraInicio,DataFim,HoraFim,Internet,NumeroSala,Pessoas,Computador,Televisor")] Reuniao reuniao)
         {
-            if (!reuniao.DataInicio.Equals(DateTime.Today) || reuniao.DataInicio.Subtract(DateTime.Today).TotalDays <= 40)
+            if (reuniao.DataInicio.Equals(DateTime.Today))
             {
-
-
+                ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com pelo menos 1 dia de antecedencia.");
+                return View(reuniao);
             }
-            else
+            else if(reuniao.DataInicio.Subtract(DateTime.Today).TotalDays >= 40)
+            {
+                ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com no máximo 40 dias de antecedencia");
+                return View(reuniao);
+            }
+            else if (reuniao.DataInicio < DateTime.Today || reuniao.DataFim < reuniao.DataInicio)
+            {
+                ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com uma data válida");
+                return View(reuniao);
+            }
             if ((reuniao.DataInicio.DayOfWeek == DayOfWeek.Saturday || reuniao.DataInicio.DayOfWeek == DayOfWeek.Sunday) ||
                     reuniao.DataFim.DayOfWeek == DayOfWeek.Saturday || reuniao.DataFim.DayOfWeek == DayOfWeek.Sunday)
             {
-
+                ModelState.AddModelError("DataInicio", "A reunião deve ser marcada em dias úteis");
+                return View(reuniao);
             }
             else
-            if (reuniao.HoraInicio.Subtract(reuniao.HoraFim).TotalHours > 8)
+            if (reuniao.HoraFim.Subtract(reuniao.HoraInicio).TotalHours > 8)
             {
-
-            }
+                ModelState.AddModelError("DataInicio", "A reunião deve ter no máximo 8 horas de duração");
+                return View(reuniao);
+            }else
             if (ModelState.IsValid)
             {
+                var context = db.Reuniaos.ToList();
+                var Verificador = context.FindAll(x => x.DataInicio == reuniao.DataInicio);
+
                 reuniao.Id = Guid.NewGuid();
                 db.Reuniaos.Add(reuniao);
                 db.SaveChanges();

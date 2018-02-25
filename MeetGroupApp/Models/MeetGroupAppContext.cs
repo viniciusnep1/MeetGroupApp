@@ -20,6 +20,5 @@ namespace MeetGroupApp.Models
         }
 
         public System.Data.Entity.DbSet<MeetGroupApp.Models.Reuniao> Reuniaos { get; set; }
-        public System.Data.Entity.DbSet<MeetGroupApp.Models.Sala> Salas { get; set; }
     }
 }

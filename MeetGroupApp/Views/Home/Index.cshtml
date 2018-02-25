@@ -1,7 +1,9 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "Index";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="jumbotron text-center">Bem Vindo ao Aplicativo Meet Group</div>
+
+<div class="btn-group-justified text-center">
+    <button type="button" class="btn btn-default" style="width:100px">@Html.ActionLink("Cadastro", "Index", "Reuniao")</button>
+</div>

@@ -28,6 +28,16 @@ namespace MeetGroupApp.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0}")]
         public TimeSpan HoraFim { get; set; }
 
-        public Sala Sala { get; set; }
+        
+        public int NumeroSala { get; set; }
+
+        [Display(Name = "Número de Pessoas")]
+        public int Pessoas { get; set; }
+
+        public bool Computador { get; set; }
+
+        public bool Internet { get; set; }
+
+        public bool Televisor { get; set; }
     }
 }

@@ -160,7 +160,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReuniaoController.cs" />
-    <Compile Include="Controllers\SalasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -176,10 +175,21 @@
     <Compile Include="Migrations\201802241500591_AddSalas.Designer.cs">
       <DependentUpon>201802241500591_AddSalas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802252013148_fixReuniao.cs" />
+    <Compile Include="Migrations\201802252013148_fixReuniao.Designer.cs">
+      <DependentUpon>201802252013148_fixReuniao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802252049426_RemoveClassSala.cs" />
+    <Compile Include="Migrations\201802252049426_RemoveClassSala.Designer.cs">
+      <DependentUpon>201802252049426_RemoveClassSala.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802252053097_FixIssues.cs" />
+    <Compile Include="Migrations\201802252053097_FixIssues.Designer.cs">
+      <DependentUpon>201802252053097_FixIssues.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MeetGroupAppContext.cs" />
     <Compile Include="Models\Reuniao.cs" />
-    <Compile Include="Models\Sala.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +260,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802241500591_AddSalas.resx">
       <DependentUpon>201802241500591_AddSalas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802252013148_fixReuniao.resx">
+      <DependentUpon>201802252013148_fixReuniao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802252049426_RemoveClassSala.resx">
+      <DependentUpon>201802252049426_RemoveClassSala.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802252053097_FixIssues.resx">
+      <DependentUpon>201802252053097_FixIssues.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
