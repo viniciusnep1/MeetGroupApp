@@ -42,9 +42,16 @@
             @Html.DisplayFor(model => model.HoraFim)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroSala)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroSala)
+        </dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Voltar", "Index")
 </p>
