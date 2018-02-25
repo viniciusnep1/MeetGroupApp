@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -88,7 +89,8 @@ namespace MeetGroupApp.Controllers
                         if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
                         {
                             reuniao.NumeroSala = 2;
-                        }else
+                        }
+                        else
                             reuniao.NumeroSala = 1;
                     }
                     else if (Verificador.Any(x => x.NumeroSala == 2))
@@ -117,21 +119,13 @@ namespace MeetGroupApp.Controllers
                         }
                         reuniao.NumeroSala = 4;
                     }
-                    else if (Verificador.Any(x => x.NumeroSala == 1 || x.NumeroSala == 2 || x.NumeroSala == 3 || x.NumeroSala == 4 || x.NumeroSala == 5))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            ModelState.AddModelError("DataInicio", "Não temos salas disponiveis para essa data.");
-                            return View(reuniao);
-                        }
-                    }
+
                     else
                     {
                         reuniao.NumeroSala = 1;
                     }
                 }
-
-
+                else
                 if (reuniao.Pessoas <= 10 && reuniao.Televisor.Equals(false) && reuniao.Computador.Equals(false) && reuniao.Internet.Equals(true))
                 {
                     if (Verificador.Any(x => x.NumeroSala == 6))
@@ -143,8 +137,10 @@ namespace MeetGroupApp.Controllers
                         else
                             reuniao.NumeroSala = 6;
                     }
+                    else
+                        reuniao.NumeroSala = 6;
                 }
-
+                else
                 if (reuniao.Pessoas <= 3 && reuniao.Televisor.Equals(true) && reuniao.Computador.Equals(true) && reuniao.Internet.Equals(true))
                 {
                     if (Verificador.Any(x => x.NumeroSala == 8))
@@ -155,7 +151,8 @@ namespace MeetGroupApp.Controllers
                         }
                         else
                             reuniao.NumeroSala = 8;
-                    }else if (Verificador.Any(x => x.NumeroSala == 9))
+                    }
+                    else if (Verificador.Any(x => x.NumeroSala == 9))
                     {
                         if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
                         {
@@ -164,26 +161,43 @@ namespace MeetGroupApp.Controllers
                         else
                             reuniao.NumeroSala = 9;
                     }
+                    else
+                        reuniao.NumeroSala = 8;
                 }
-
+                else
                 if (reuniao.Pessoas <= 20 && reuniao.Televisor.Equals(false) && reuniao.Computador.Equals(false) && reuniao.Internet.Equals(false))
                 {
-                    if (Verificador.Any(x => x.NumeroSala == 6))
+                    if (Verificador.Any(x => x.NumeroSala == 11))
                     {
                         if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
                         {
-                            reuniao.NumeroSala = 7;
+                            reuniao.NumeroSala = 12;
                         }
                         else
-                            reuniao.NumeroSala = 6;
+                            reuniao.NumeroSala = 11;
                     }
+                    else
+                        reuniao.NumeroSala = 11;
                 }
+                else
+                {
+                    ModelState.AddModelError("DataInicio", "Sem Salas Disponíveis, tente outra data.");
+                    return View(reuniao);
+                }
+
 
                 reuniao.Id = Guid.NewGuid();
                 db.Reuniaos.Add(reuniao);
                 db.SaveChanges();
+
+                string path = @"C:\Users\Public\reuniao.txt";
+                StreamWriter sw = new StreamWriter(path);
+
+                sw.WriteLine("Reunião marcada para o dia " + reuniao.DataInicio.Date + " e termina no dia " + reuniao.DataFim.Date + ". A reunião vai começar as " + reuniao.HoraInicio + " e vai terminar as " + reuniao.HoraFim + " e será na sala número " + reuniao.NumeroSala);
+                sw.Close();
                 return RedirectToAction("Index");
             }
+
 
             return View(reuniao);
         }
