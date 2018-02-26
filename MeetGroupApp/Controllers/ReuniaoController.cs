@@ -86,7 +86,7 @@ namespace MeetGroupApp.Controllers
                 reuniao = service.VerificacaoDeSala(reuniao);
                 if (reuniao.NumeroSala == 0)
                 {
-                    ModelState.AddModelError("DataInicio", "Sala não encontrada, verifique a dos dados e tente novamente");
+                    ModelState.AddModelError("DataInicio", "Sala não encontrada, verifique a entrada dos dados e tente novamente");
                     return View(reuniao);
                 }
 
