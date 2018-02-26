@@ -191,6 +191,7 @@
     <Compile Include="Models\MeetGroupAppContext.cs" />
     <Compile Include="Models\Reuniao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ReuniaoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

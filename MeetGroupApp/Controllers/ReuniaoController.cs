@@ -8,18 +8,22 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MeetGroupApp.Models;
+using MeetGroupApp.Services;
 
 namespace MeetGroupApp.Controllers
 {
     public class ReuniaoController : Controller
     {
         private MeetGroupAppContext db = new MeetGroupAppContext();
+        private ReuniaoService service = new ReuniaoService();
 
         // GET: Reuniao
         public ActionResult Index()
         {
             return View(db.Reuniaos.ToList());
         }
+
+
 
         // GET: Reuniao/Details/5
         public ActionResult Details(Guid? id)
@@ -49,142 +53,42 @@ namespace MeetGroupApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,DataInicio,HoraInicio,DataFim,HoraFim,Internet,NumeroSala,Pessoas,Computador,Televisor")] Reuniao reuniao)
         {
-            if (reuniao.DataInicio.Equals(DateTime.Today))
-            {
-                ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com pelo menos 1 dia de antecedencia.");
-                return View(reuniao);
-            }
-            else if (reuniao.DataInicio.Subtract(DateTime.Today).TotalDays >= 40)
-            {
-                ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com no máximo 40 dias de antecedencia");
-                return View(reuniao);
-            }
-            else if (reuniao.DataInicio < DateTime.Today || reuniao.DataFim < reuniao.DataInicio)
-            {
-                ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com uma data válida");
-                return View(reuniao);
-            }
-            if ((reuniao.DataInicio.DayOfWeek == DayOfWeek.Saturday || reuniao.DataInicio.DayOfWeek == DayOfWeek.Sunday) ||
-                    reuniao.DataFim.DayOfWeek == DayOfWeek.Saturday || reuniao.DataFim.DayOfWeek == DayOfWeek.Sunday)
-            {
-                ModelState.AddModelError("DataInicio", "A reunião deve ser marcada em dias úteis");
-                return View(reuniao);
-            }
-            else
-            if (reuniao.HoraFim.Subtract(reuniao.HoraInicio).TotalHours > 8)
-            {
-                ModelState.AddModelError("DataInicio", "A reunião deve ter no máximo 8 horas de duração");
-                return View(reuniao);
-            }
-            else
             if (ModelState.IsValid)
             {
-                var context = db.Reuniaos.ToList();
-                var Verificador = context.FindAll(x => x.DataInicio == reuniao.DataInicio);
-
-                if (reuniao.Pessoas <= 10 && reuniao.Pessoas > 3 && reuniao.Televisor.Equals(true) && reuniao.Computador.Equals(true) && reuniao.Internet.Equals(true))
+                if (reuniao.DataInicio.Equals(DateTime.Today))
                 {
-                    if (Verificador.Any(x => x.NumeroSala == 1))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            reuniao.NumeroSala = 2;
-                        }
-                        else
-                            reuniao.NumeroSala = 1;
-                    }
-                    else if (Verificador.Any(x => x.NumeroSala == 2))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            reuniao.NumeroSala = 3;
-                        }
-                        else
-                            reuniao.NumeroSala = 2;
-                    }
-                    else if (Verificador.Any(x => x.NumeroSala == 3))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            reuniao.NumeroSala = 4;
-                        }
-                        else
-                            reuniao.NumeroSala = 3;
-                    }
-                    else if (Verificador.Any(x => x.NumeroSala == 4))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            reuniao.NumeroSala = 5;
-                        }
-                        reuniao.NumeroSala = 4;
-                    }
-
-                    else
-                    {
-                        reuniao.NumeroSala = 1;
-                    }
+                    ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com pelo menos 1 dia de antecedencia.");
+                    return View(reuniao);
+                }
+                else if (reuniao.DataInicio.Subtract(DateTime.Today).TotalDays >= 40)
+                {
+                    ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com no máximo 40 dias de antecedencia");
+                    return View(reuniao);
+                }
+                else if (reuniao.DataInicio < DateTime.Today || reuniao.DataFim < reuniao.DataInicio)
+                {
+                    ModelState.AddModelError("DataInicio", "A reunião deve ser marcada com uma data válida");
+                    return View(reuniao);
+                }
+                if ((reuniao.DataInicio.DayOfWeek == DayOfWeek.Saturday || reuniao.DataInicio.DayOfWeek == DayOfWeek.Sunday) ||
+                        reuniao.DataFim.DayOfWeek == DayOfWeek.Saturday || reuniao.DataFim.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    ModelState.AddModelError("DataInicio", "A reunião deve ser marcada em dias úteis");
+                    return View(reuniao);
                 }
                 else
-                if (reuniao.Pessoas <= 10 && reuniao.Televisor.Equals(false) && reuniao.Computador.Equals(false) && reuniao.Internet.Equals(true))
+                if (reuniao.HoraFim.Subtract(reuniao.HoraInicio).TotalHours > 8)
                 {
-                    if (Verificador.Any(x => x.NumeroSala == 6))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            reuniao.NumeroSala = 7;
-                        }
-                        else
-                            reuniao.NumeroSala = 6;
-                    }
-                    else
-                        reuniao.NumeroSala = 6;
-                }
-                else
-                if (reuniao.Pessoas <= 3 && reuniao.Televisor.Equals(true) && reuniao.Computador.Equals(true) && reuniao.Internet.Equals(true))
-                {
-                    if (Verificador.Any(x => x.NumeroSala == 8))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            reuniao.NumeroSala = 9;
-                        }
-                        else
-                            reuniao.NumeroSala = 8;
-                    }
-                    else if (Verificador.Any(x => x.NumeroSala == 9))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            reuniao.NumeroSala = 10;
-                        }
-                        else
-                            reuniao.NumeroSala = 9;
-                    }
-                    else
-                        reuniao.NumeroSala = 8;
-                }
-                else
-                if (reuniao.Pessoas <= 20 && reuniao.Televisor.Equals(false) && reuniao.Computador.Equals(false) && reuniao.Internet.Equals(false))
-                {
-                    if (Verificador.Any(x => x.NumeroSala == 11))
-                    {
-                        if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
-                        {
-                            reuniao.NumeroSala = 12;
-                        }
-                        else
-                            reuniao.NumeroSala = 11;
-                    }
-                    else
-                        reuniao.NumeroSala = 11;
-                }
-                else
-                {
-                    ModelState.AddModelError("DataInicio", "Sem Salas Disponíveis.");
+                    ModelState.AddModelError("DataInicio", "A reunião deve ter no máximo 8 horas de duração");
                     return View(reuniao);
                 }
 
+                reuniao = service.VerificacaoDeSala(reuniao);
+                if (reuniao.NumeroSala == 0)
+                {
+                    ModelState.AddModelError("DataInicio", "Sala não encontrada, verifique a dos dados e tente novamente");
+                    return View(reuniao);
+                }
 
                 reuniao.Id = Guid.NewGuid();
                 db.Reuniaos.Add(reuniao);
