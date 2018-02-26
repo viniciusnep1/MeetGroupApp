@@ -21,7 +21,8 @@ namespace MeetGroupApp.Services
             {
                 if (Verificador.Any(x => x.NumeroSala == 1))
                 {
-                    if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
+                    
+                    if (Verificador.Any(x => x.HoraInicio <= reuniao.HoraInicio && x.HoraFim >= reuniao.HoraInicio))
                     {
                         reuniao.NumeroSala = 2;
                     }
@@ -30,7 +31,7 @@ namespace MeetGroupApp.Services
                 }
                 else if (Verificador.Any(x => x.NumeroSala == 2))
                 {
-                    if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
+                    if (Verificador.Any(x => x.HoraInicio <= reuniao.HoraInicio && x.HoraFim >= reuniao.HoraInicio))
                     {
                         reuniao.NumeroSala = 3;
                     }
@@ -39,7 +40,7 @@ namespace MeetGroupApp.Services
                 }
                 else if (Verificador.Any(x => x.NumeroSala == 3))
                 {
-                    if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
+                    if (Verificador.Any(x => x.HoraInicio <= reuniao.HoraInicio && x.HoraFim >= reuniao.HoraInicio))
                     {
                         reuniao.NumeroSala = 4;
                     }
@@ -48,7 +49,7 @@ namespace MeetGroupApp.Services
                 }
                 else if (Verificador.Any(x => x.NumeroSala == 4))
                 {
-                    if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
+                    if (Verificador.Any(x => x.HoraInicio <= reuniao.HoraInicio && x.HoraFim >= reuniao.HoraInicio))
                     {
                         reuniao.NumeroSala = 5;
                     }
@@ -65,7 +66,7 @@ namespace MeetGroupApp.Services
             {
                 if (Verificador.Any(x => x.NumeroSala == 6))
                 {
-                    if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
+                    if (Verificador.Any(x => x.HoraInicio <= reuniao.HoraInicio && x.HoraFim >= reuniao.HoraInicio))
                     {
                         reuniao.NumeroSala = 7;
                     }
@@ -80,7 +81,7 @@ namespace MeetGroupApp.Services
             {
                 if (Verificador.Any(x => x.NumeroSala == 8))
                 {
-                    if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
+                    if (Verificador.Any(x => x.HoraInicio <= reuniao.HoraInicio && x.HoraFim >= reuniao.HoraInicio))
                     {
                         reuniao.NumeroSala = 9;
                     }
@@ -89,7 +90,7 @@ namespace MeetGroupApp.Services
                 }
                 else if (Verificador.Any(x => x.NumeroSala == 9))
                 {
-                    if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
+                    if (Verificador.Any(x => x.HoraInicio <= reuniao.HoraInicio && x.HoraFim >= reuniao.HoraInicio))
                     {
                         reuniao.NumeroSala = 10;
                     }
@@ -104,7 +105,7 @@ namespace MeetGroupApp.Services
             {
                 if (Verificador.Any(x => x.NumeroSala == 11))
                 {
-                    if (Verificador.Any(x => x.HoraInicio >= reuniao.HoraInicio && reuniao.HoraInicio <= x.HoraFim))
+                    if (Verificador.Any(x => x.HoraInicio <= reuniao.HoraInicio && x.HoraFim >= reuniao.HoraInicio))
                     {
                         reuniao.NumeroSala = 12;
                     }
