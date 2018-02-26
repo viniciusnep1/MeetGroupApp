@@ -47,8 +47,7 @@
             @Html.DisplayFor(modelItem => item.NumeroSala)
         </td>
         <td>
-            @Html.ActionLink("Editar Reunião", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Detailhe da Reunião", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Detalhe", "Details", new { id=item.Id }) |
             @Html.ActionLink("Apagar Reunião", "Delete", new { id=item.Id })
         </td>
     </tr>

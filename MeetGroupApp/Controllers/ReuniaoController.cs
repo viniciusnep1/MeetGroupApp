@@ -181,7 +181,7 @@ namespace MeetGroupApp.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("DataInicio", "Sem Salas Disponíveis, tente outra data.");
+                    ModelState.AddModelError("DataInicio", "Sem Salas Disponíveis.");
                     return View(reuniao);
                 }
 
@@ -193,7 +193,7 @@ namespace MeetGroupApp.Controllers
                 string path = @"C:\Users\Public\reuniao.txt";
                 StreamWriter sw = new StreamWriter(path);
 
-                sw.WriteLine("Reunião marcada para o dia " + reuniao.DataInicio.Date + " e termina no dia " + reuniao.DataFim.Date + ". A reunião vai começar as " + reuniao.HoraInicio + " e vai terminar as " + reuniao.HoraFim + " e será na sala número " + reuniao.NumeroSala);
+                sw.WriteLine("Reunião marcada para " + reuniao.DataInicio.GetDateTimeFormats('D').FirstOrDefault() + " e terminará " + reuniao.DataFim.Date.GetDateTimeFormats('D').FirstOrDefault() + ". \nA reunião vai começar as " + reuniao.HoraInicio + " e vai terminar as " + reuniao.HoraFim + " e será na sala número " + reuniao.NumeroSala);
                 sw.Close();
                 return RedirectToAction("Index");
             }
